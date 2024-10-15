@@ -7,7 +7,7 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 120),
@@ -54,15 +54,8 @@ class WelcomePage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () =>
                         {Navigator.pushNamed(context, '/registration_page')},
-                    style: ElevatedButton.styleFrom(
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
-                        backgroundColor: Colors.amber,
-                        foregroundColor: Colors.black),
-                    child: Text(
+                    child: const Text(
                       'Continue',
-                      style: GoogleFonts.inter(),
                     ),
                   ),
                 )
