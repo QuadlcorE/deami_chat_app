@@ -14,11 +14,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isPasswordVisible = false;
 
-  void _loginWithEmailAndPassword() {
+  void _loginWithEmailAndPassword(context) {
     if (_formKey.currentState!.validate()) {
       // Perform email and password login logic here
       // print('Logging in with email: ${_emailController.text}');
     }
+    Navigator.pushNamed(context, "/home");
   }
 
   void _loginWithGoogle() {
@@ -125,7 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           // Login Button
                           ElevatedButton(
-                            onPressed: _loginWithEmailAndPassword,
+                            onPressed: () =>
+                                _loginWithEmailAndPassword(context),
                             child: const Text('Login with Email'),
                           ),
                           const SizedBox(height: 10),

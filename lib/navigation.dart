@@ -1,3 +1,4 @@
+import 'package:deami_chat_app/screens/home_screen.dart';
 import 'package:deami_chat_app/screens/verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'screens/welcome_screen.dart';
@@ -15,6 +16,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/verification':
       return MaterialPageRoute(
           builder: (context) => const VerificationScreen());
+    case '/home':
+      return MaterialPageRoute(builder: (context) => const HomeScreen());
     default:
       return MaterialPageRoute(builder: (context) => const WelcomeScreen());
   }
