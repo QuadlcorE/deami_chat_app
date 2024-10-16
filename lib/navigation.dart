@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'screens/welcome_page.dart';
-import 'screens/registration_page.dart';
+import 'screens/welcome_screen.dart';
+import 'screens/registration_screen.dart';
+import 'screens/login_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case '/':
-      return MaterialPageRoute(builder: (context) => const WelcomePage());
-    case '/registration_page':
+      return MaterialPageRoute(builder: (context) => const WelcomeScreen());
+    case '/registration':
       return MaterialPageRoute(builder: (context) => const RegistrationPage());
+    case '/login':
+      return MaterialPageRoute(builder: (context) => const LoginScreen());
     default:
-      return MaterialPageRoute(builder: (context) => const WelcomePage());
+      return MaterialPageRoute(builder: (context) => const WelcomeScreen());
   }
 }

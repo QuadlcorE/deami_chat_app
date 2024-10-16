@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +52,7 @@ class WelcomePage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 50, bottom: 50),
                   child: ElevatedButton(
-                    onPressed: () =>
-                        {Navigator.pushNamed(context, '/registration_page')},
+                    onPressed: () => {Navigator.pushNamed(context, '/login')},
                     child: const Text(
                       'Continue',
                     ),

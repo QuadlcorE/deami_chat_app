@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:deami_chat_app/utils/colors.dart';
+import 'package:deami_chat_app/constants/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData darkTheme = ThemeData(
@@ -10,6 +10,45 @@ ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme.light(
     primary: ColorUtils.white,
     surface: ColorUtils.black,
+  ),
+
+  // Icon theme
+  iconTheme: IconThemeData(
+    color: ColorUtils.white,
+  ),
+
+  // Input Field Theme
+  inputDecorationTheme: InputDecorationTheme(
+    // filled: true,
+    fillColor: ColorUtils.lightGrey,
+    labelStyle: _textTheme.labelMedium,
+    prefixIconColor: ColorUtils.white,
+    suffixIconColor: ColorUtils.white,
+    hintStyle: TextStyle(
+      color: ColorUtils.lightGrey,
+      fontSize: 14,
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(20),
+      borderSide: const BorderSide(color: Colors.blue, width: 1.0),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(20),
+      borderSide: const BorderSide(color: Colors.blueAccent, width: 2.0),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(20),
+      borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(20),
+      borderSide: const BorderSide(color: Colors.red, width: 1.0),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(20),
+      borderSide: const BorderSide(color: Colors.redAccent, width: 2.0),
+    ),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
   ),
 
   // ElevatedButton theme
