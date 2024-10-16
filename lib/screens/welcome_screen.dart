@@ -9,58 +9,88 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 120),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 50, top: 50),
-                  child: Text(
-                    'Deami',
-                    style: GoogleFonts.lilitaOne(
-                      textStyle: const TextStyle(
-                          color: Colors.amber,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 90),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 40,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Title Section
+                        Padding(
+                          padding: const EdgeInsets.only(top: 50, bottom: 50),
+                          child: Text(
+                            'Deami',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.lilitaOne(
+                              textStyle: const TextStyle(
+                                color: Colors.amber,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 90,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        // Welcome Text Section
+                        Column(
+                          children: [
+                            Text(
+                              'Welcome to Deami!',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.inter(
+                                textStyle: const TextStyle(
+                                  color: Colors.amber,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 34,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              'Stay Connected Anytime, Anywhere!',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.inter(
+                                textStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const Spacer(),
+
+                        // Continue Button Section
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 50),
+                          child: ElevatedButton(
+                            onPressed: () =>
+                                Navigator.pushNamed(context, '/login'),
+                            child: const Text('Continue'),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                Column(
-                  children: [
-                    Text(
-                      'Welcome to Deami!',
-                      style: GoogleFonts.inter(
-                        textStyle: const TextStyle(
-                            color: Colors.amber,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 34),
-                      ),
-                    ),
-                    Text(
-                      'Stay Connected Any time, Any where!',
-                      style: GoogleFonts.inter(
-                          textStyle: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 20)),
-                    ),
-                  ],
-                ),
-                const Spacer(flex: 30),
-                Padding(
-                  padding: const EdgeInsets.only(top: 50, bottom: 50),
-                  child: ElevatedButton(
-                    onPressed: () => {Navigator.pushNamed(context, '/login')},
-                    child: const Text(
-                      'Continue',
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

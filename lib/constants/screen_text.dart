@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 // App constants
 const String tAppName = "Deami";
 
