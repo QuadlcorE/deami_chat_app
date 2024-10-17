@@ -42,6 +42,22 @@ class _HomeScreenState extends State<HomeScreen> {
     return _chats.where((chat) => chat['label'] == selectedLabel).toList();
   }
 
+  // Helper method to get icon based on the selected index
+  IconData _getIconForIndex(int index) {
+    switch (index) {
+      case 0:
+        return Icons.chat;
+      case 1:
+        return Icons.group;
+      case 2:
+        return Icons.call;
+      case 3:
+        return Icons.settings;
+      default:
+        return Icons.chat;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,10 +101,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Text(
                       _labels[index],
-                      style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
                     ),
                   ),
                 );
@@ -106,8 +118,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   leading: const CircleAvatar(
                     child: Icon(Icons.person),
                   ),
-                  title: Text(chat['name']!),
-                  subtitle: Text(chat['message']!),
+                  title: Text(
+                    chat['name']!,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  subtitle: Text(
+                    chat['message']!,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                   onTap: () {
                     // Handle chat item click
                   },
@@ -119,25 +137,52 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       // Bottom Navigation Bar
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentBottomNavIndex,
-        onTap: _onBottomNavTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chats',
+      bottomNavigationBar: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          // Actual Navigationabar
+          BottomNavigationBar(
+            currentIndex: _currentBottomNavIndex,
+            selectedItemColor: Colors.transparent,
+            selectedIconTheme: const IconThemeData(color: Colors.transparent),
+            onTap: _onBottomNavTapped,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.chat),
+                label: 'Chats',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.group),
+                label: 'Groups',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.call),
+                label: 'Calls',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: 'Settings',
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'Groups',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.call),
-            label: 'Calls',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+
+          // Positioned circle for Selected Icon
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.elasticInOut,
+            bottom: 20, // Adjusted bottom padding
+            left: (_currentBottomNavIndex + 0.5) *
+                    (MediaQuery.of(context).size.width / 4) -
+                30, // Centered dynamically
+            child: CircleAvatar(
+              radius: 30,
+              backgroundColor: ColorUtils.yellow,
+              child: Icon(
+                _getIconForIndex(_currentBottomNavIndex),
+                size: 30,
+                color: ColorUtils.black,
+              ),
+            ),
           ),
         ],
       ),

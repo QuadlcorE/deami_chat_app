@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'DeaMi',
       theme: lightTheme,
       darkTheme: darkTheme,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       initialRoute: '/',
       onGenerateRoute: generateRoute,
       // home: const ThemeTestPage(),

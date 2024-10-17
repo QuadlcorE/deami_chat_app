@@ -17,6 +17,14 @@ ThemeData darkTheme = ThemeData(
     color: ColorUtils.white,
   ),
 
+  // Bottom Navigation Bar Theme
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    selectedIconTheme: IconThemeData(color: ColorUtils.white, size: 30),
+    unselectedIconTheme: IconThemeData(color: ColorUtils.white, size: 24),
+    selectedItemColor: Colors.white,
+    unselectedItemColor: Colors.transparent,
+  ),
+
   // Input Field Theme
   inputDecorationTheme: InputDecorationTheme(
     // filled: true,

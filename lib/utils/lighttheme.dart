@@ -194,7 +194,7 @@ final TextTheme _textTheme = TextTheme(
     fontWeight: FontWeight.w600,
   ),
 
-  // Body 1
+  // Body 2
   bodyMedium: TextStyle(
     color: ColorUtils.black,
     fontFamily: GoogleFonts.inter().fontFamily,
