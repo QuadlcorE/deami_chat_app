@@ -1,5 +1,9 @@
 import 'package:deami_chat_app/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:deami_chat_app/screens/home_screens/chats_screen.dart';
+import 'package:deami_chat_app/screens/home_screens/communities_screen.dart';
+import 'package:deami_chat_app/screens/home_screens/contact_screen.dart';
+import 'package:deami_chat_app/screens/home_screens/account_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,41 +12,53 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int _selectedTabIndex = 0; // To track the selected label/tab.
-  int _currentBottomNavIndex = 0; // To track the selected bottom nav item.
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  int _currentBottomNavIndex = 0;
+  int _selectedIconIndex = 0;
 
-  // Dummy list of chat data
-  final List<Map<String, String>> _chats = [
-    {'name': 'Alice', 'message': 'Hello!', 'label': 'Friends'},
-    {'name': 'Bob', 'message': 'Let\'s meet tomorrow', 'label': 'Work'},
-    {'name': 'Charlie', 'message': 'Party time!', 'label': 'Friends'},
-    {'name': 'David', 'message': 'New project update', 'label': 'Work'},
-    {'name': 'Eve', 'message': 'See you soon!', 'label': 'Family'},
-  ];
+  final PageController _pageController = PageController();
 
-  // Tabs for sorting chat content by label
-  final List<String> _labels = ['All', 'Friends', 'Work', 'Family'];
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
 
-  void _onTabSelected(int index) {
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(microseconds: 300),
+      vsync: this,
+    );
+    _fadeAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _updateSelectedIcon(int index) {
     setState(() {
-      _selectedTabIndex = index;
+      _selectedIconIndex = index;
     });
   }
 
   void _onBottomNavTapped(int index) {
-    setState(() {
-      _currentBottomNavIndex = index;
+    _animationController.reverse().then((_) {
+      setState(() {
+        _currentBottomNavIndex = index;
+      });
+      _pageController.animateToPage(index,
+          duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+      _animationController.forward();
     });
   }
 
-  List<Map<String, String>> _getFilteredChats() {
-    if (_selectedTabIndex == 0) return _chats; // 'All' tab selected
-    final selectedLabel = _labels[_selectedTabIndex];
-    return _chats.where((chat) => chat['label'] == selectedLabel).toList();
-  }
-
-  // Helper method to get icon based on the selected index
   IconData _getIconForIndex(int index) {
     switch (index) {
       case 0:
@@ -58,89 +74,68 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // Screens for each tab
+  final List<Widget> _screens = [
+    const ChatsScreen(),
+    const CommunitiesScreen(),
+    const ContactScreen(),
+    const AccountScreen(),
+  ];
+
+  AppBar _getAppBarForCurrentScreen(int index) {
+    switch (index) {
+      case 0:
+        return const ChatsScreen().buildAppBar(context);
+      case 1:
+        return const CommunitiesScreen().buildAppBar(context);
+      case 2:
+        return const ContactScreen().buildAppBar(context);
+      case 3:
+        return const AccountScreen().buildAppBar(context);
+      default:
+        return const ChatsScreen().buildAppBar(context);
+    }
+  }
+
+  String _getLabelForIndex(int index) {
+    switch (index) {
+      case 0:
+        return 'Chats';
+      case 1:
+        return 'Groups';
+      case 2:
+        return 'Calls';
+      case 3:
+        return 'Settings';
+      default:
+        return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false, // Hides the back button
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              'Chats',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                // Implement search functionality here
-              },
-            ),
-          ],
-        ),
-      ),
-      body: Column(
-        children: [
-          // Tab Navigation Bar for sorting chats
-          SizedBox(
-            height: 50,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _labels.length,
-              itemBuilder: (context, index) {
-                final isSelected = _selectedTabIndex == index;
-                return GestureDetector(
-                  onTap: () => _onTabSelected(index),
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                      color: isSelected ? Colors.blue : Colors.grey[200],
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      _labels[index],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
+      appBar: _getAppBarForCurrentScreen(_currentBottomNavIndex),
 
-          // Chats Section
-          Expanded(
-            child: ListView.builder(
-              itemCount: _getFilteredChats().length,
-              itemBuilder: (context, index) {
-                final chat = _getFilteredChats()[index];
-                return ListTile(
-                  leading: const CircleAvatar(
-                    child: Icon(Icons.person),
-                  ),
-                  title: Text(
-                    chat['name']!,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  subtitle: Text(
-                    chat['message']!,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  onTap: () {
-                    // Handle chat item click
-                  },
-                );
-              },
-            ),
-          ),
-        ],
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          _animationController.reverse().then((_) {
+            _updateSelectedIcon(index);
+            _animationController.forward();
+          });
+          setState(() {
+            _currentBottomNavIndex = index;
+          });
+        },
+        children: _screens,
       ),
 
       // Bottom Navigation Bar
       bottomNavigationBar: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Actual Navigationabar
+          // Actual Navigation Bar
           BottomNavigationBar(
             currentIndex: _currentBottomNavIndex,
             selectedItemColor: Colors.transparent,
@@ -166,22 +161,40 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
 
-          // Positioned circle for Selected Icon
+          // Positioned Circle with Animated Text
           AnimatedPositioned(
             duration: const Duration(milliseconds: 300),
             curve: Curves.elasticInOut,
-            bottom: 20, // Adjusted bottom padding
+            bottom: 5, // Adjusted bottom padding
             left: (_currentBottomNavIndex + 0.5) *
                     (MediaQuery.of(context).size.width / 4) -
                 30, // Centered dynamically
-            child: CircleAvatar(
-              radius: 30,
-              backgroundColor: ColorUtils.yellow,
-              child: Icon(
-                _getIconForIndex(_currentBottomNavIndex),
-                size: 30,
-                color: ColorUtils.black,
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: ColorUtils.yellow,
+                  child: Icon(
+                    _getIconForIndex(_selectedIconIndex),
+                    size: 30,
+                    color: ColorUtils.black,
+                  ),
+                ),
+                const SizedBox(height: 5), // Spacing between circle and text
+
+                // Animated Fade Text
+                FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: Text(
+                    _getLabelForIndex(_currentBottomNavIndex),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

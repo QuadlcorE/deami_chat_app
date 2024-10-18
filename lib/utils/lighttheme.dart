@@ -72,7 +72,7 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
 
-  // Define OutlinedButton theme
+  // OutlinedButton theme
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       side: BorderSide(color: ColorUtils.darkYellow, width: 1),
@@ -86,7 +86,7 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
 
-  // Define TextButton theme
+  // TextButton theme
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
       foregroundColor: ColorUtils.darkYellow,
@@ -94,6 +94,12 @@ ThemeData lightTheme = ThemeData(
       padding: const EdgeInsets.all(16),
     ),
   ),
+
+  // Icon Button
+  iconButtonTheme: IconButtonThemeData(
+      style: IconButton.styleFrom(
+    foregroundColor: ColorUtils.black,
+  )),
 
   // Define FloatingAction Button
   floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -103,6 +109,7 @@ ThemeData lightTheme = ThemeData(
     extendedTextStyle: _textTheme.labelLarge,
   ),
 
+  // AppBar
   appBarTheme: const AppBarTheme(
     color: Colors.transparent,
     elevation: 0,
