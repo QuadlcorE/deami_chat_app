@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:deami_chat_app/constants/colors.dart';
+import 'package:deami_chat_app/screens/home_screens/chat screen/widgets/tab_navigation.dart';
 
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({super.key});
@@ -41,58 +42,50 @@ class _ChatsScreenState extends State<ChatsScreen> {
     {'name': 'Eve', 'message': 'See you soon!', 'label': 'Family'},
   ];
 
-  // Tabs for sorting chat content by label
-  final List<String> _labels = ['All', 'Friends', 'Work', 'Family'];
-
   void _onTabSelected(int index) {
     setState(() {
       _selectedTabIndex = index;
     });
   }
 
+  // List<Map<String, String>> _getFilteredChats() {
+  //   if (_selectedTabIndex == 0) return _chats; // 'All' tab selected
+  //   final selectedLabel = _labels[_selectedTabIndex];
+  //   return _chats.where((chat) => chat['label'] == selectedLabel).toList();
+  // }
+
   List<Map<String, String>> _getFilteredChats() {
-    if (_selectedTabIndex == 0) return _chats; // 'All' tab selected
-    final selectedLabel = _labels[_selectedTabIndex];
-    return _chats.where((chat) => chat['label'] == selectedLabel).toList();
+    switch (_selectedTabIndex) {
+      case 0: // All chats
+        return _chats;
+      case 1: // Work
+        return _chats.where((chat) => chat['label'] == 'Work').toList();
+      case 2: // Friends
+        return _chats.where((chat) => chat['label'] == 'Friends').toList();
+      case 3: //
+        return _chats.where((chat) => chat['label'] == 'Family').toList();
+      default:
+        return _chats;
+    }
+  }
+
+  Map<String, int> _getCategoryCounts() {
+    return {
+      'all': _chats.length,
+      'Work': _chats.where((chat) => chat['label'] == 'Work').length,
+      'Friends': _chats.where((chat) => chat['label'] == 'Friends').length,
+      'Family': _chats.where((chat) => chat['label'] == 'Family').length,
+    };
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Tab Navigation Bar for sorting chats
-        SizedBox(
-          height: 50,
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _labels.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () => _onTabSelected(index),
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        margin: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(
-                          _labels[index],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-
-              // Divider
-              Divider(
-                thickness: 3,
-                color: ColorUtils.lightGrey,
-                height: 10,
-              )
-            ],
-          ),
+        TabNavigationBar(
+          selectedIndex: _selectedTabIndex,
+          onTabSelected: _onTabSelected,
+          categoryCount: _getCategoryCounts(),
         ),
 
         // Chats Section
