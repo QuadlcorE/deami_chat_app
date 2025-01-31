@@ -113,11 +113,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
             // Submit Button
             ElevatedButton(
               onPressed: _submitCode,
-              child: const Text('Verify'),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 minimumSize: const Size(double.infinity, 50),
               ),
+              child: const Text('Verify'),
             ),
           ],
         ),

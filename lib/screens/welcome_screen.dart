@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:deami_chat_app/services/auth_gate.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -76,12 +77,12 @@ class WelcomeScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 50),
                           child: ElevatedButton(
-                            onPressed: () =>
-                                Navigator.pushNamed(context, '/login'),
-                            child: const Text('Continue'),
+                            onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                                context, '/login', (route) => false),
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
                             ),
+                            child: const Text('Continue'),
                           ),
                         ),
                       ],

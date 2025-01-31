@@ -1,8 +1,7 @@
+// home_screen.dart
 import 'package:deami_chat_app/constants/colors.dart';
-import 'package:deami_chat_app/screens/widgets/home_menu_btn.dart';
-import 'package:deami_chat_app/services/auth_services.dart';
 import 'package:flutter/material.dart';
-import 'package:deami_chat_app/screens/home_screens/chat%20screen/chats_screen.dart';
+import 'package:deami_chat_app/screens/home_screens/chat screen/chats_screen.dart';
 import 'package:deami_chat_app/screens/home_screens/communities_screen.dart';
 import 'package:deami_chat_app/screens/home_screens/contact_screen.dart';
 import 'package:deami_chat_app/screens/home_screens/account_screen.dart';
@@ -46,27 +45,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  // Add this method to detect drag start
   void _onDragStart() {
     setState(() {
       _isDragging = true;
     });
   }
 
-  // Add this method to detect drag end
   void _onDragEnd() {
     setState(() {
       _isDragging = false;
     });
   }
 
-  // Handle bottom navigation tap and delay state update until animation completes.
   void _onBottomNavTapped(int index) {
     setState(() {
       _isSwipe = false;
       _currentBottomNavIndex = index;
-      _pendingNavIndex =
-          index; // Set the desired index without updating immediately.
+      _pendingNavIndex = index;
     });
 
     _pageController.animateToPage(
@@ -76,7 +71,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  // Modify page change handler
   void _onPageChanged(int index) {
     if (_isDragging) {
       setState(() {
@@ -147,7 +141,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               // Implement chat search
             },
           ),
-          HomeMenuBtn(),
+          IconButton(
+            icon: const Icon(Icons.more_vert),
+            onPressed: () {
+              // Implement chat menu
+            },
+          ),
         ];
       case 1:
         return [
@@ -201,7 +200,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-
       body: Listener(
         onPointerDown: (_) => _onDragStart(),
         onPointerUp: (_) => _onDragEnd(),
@@ -211,12 +209,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           children: _screens,
         ),
       ),
-
-      // Bottom Navigation Bar
       bottomNavigationBar: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Actual Navigation Bar
           BottomNavigationBar(
             currentIndex: _currentBottomNavIndex,
             selectedItemColor: Colors.transparent,
@@ -241,8 +236,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ],
           ),
-
-          // Positioned Circle with Animated Text
           AnimatedPositioned(
             duration: const Duration(milliseconds: 300),
             curve: Curves.elasticInOut,
@@ -264,8 +257,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 const SizedBox(height: 5),
-
-                // Animated Fade Text
                 FadeTransition(
                   opacity: _fadeAnimation,
                   child: Text(

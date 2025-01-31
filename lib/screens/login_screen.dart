@@ -1,4 +1,6 @@
+import 'package:deami_chat_app/services/auth_services.dart';
 import 'package:flutter/material.dart';
+import 'package:double_back_to_close/double_back_to_close.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,12 +16,47 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isPasswordVisible = false;
 
-  void _loginWithEmailAndPassword(context) {
+  void _loginWithEmailAndPassword(context) async {
     if (_formKey.currentState!.validate()) {
       // Perform email and password login logic here
+      // Auth service
+      final authService = AuthServices();
+
+      // Try login
+      try {
+        await authService.signInWithEmailPassword(
+            _emailController.text, _passwordController.text);
+        Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+      }
+
+      // Catch any errors
+      catch (e) {
+        // Extract the error message from the exception
+        String errorMessage = 'An unexpected error occurred. Please try again.';
+        if (e is String ) {
+          errorMessage = e;
+        }
+        else if (e is Exception) {
+          errorMessage = e.toString().replaceFirst('Exception: ', ''); // Remove "Exception: " prefix
+        }
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Login Error'),
+            content: Text(errorMessage),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+
       // print('Logging in with email: ${_emailController.text}');
     }
-    Navigator.pushNamed(context, "/home");
+    // Navigator.pushNamed(context, "/home");
   }
 
   void _loginWithGoogle() {
@@ -34,133 +71,139 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  // TODO: Fix the visual difference between layout of login and registration.
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
-                child: IntrinsicHeight(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            height: 100,
-                          ),
-
-                          // Title
-                          Text(
-                            'Login',
-                            style: Theme.of(context).textTheme.headlineLarge,
-                            textAlign: TextAlign.center,
-                          ),
-
-                          const SizedBox(
-                            height: 30,
-                          ),
-
-                          // Email TextField
-                          TextFormField(
-                            controller: _emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: const InputDecoration(
-                              labelText: 'Email',
-                              prefixIcon: Icon(Icons.email),
+    return DoubleBack(
+      child: Scaffold(
+        body: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: IntrinsicHeight(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              height: 100,
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your email';
-                              }
-                              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
-                                  .hasMatch(value)) {
-                                return 'Please enter a valid email';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 20),
 
-                          // Password TextField
-                          TextFormField(
-                            controller: _passwordController,
-                            obscureText: !_isPasswordVisible,
-                            decoration: InputDecoration(
-                              labelText: 'Password',
-                              prefixIcon: const Icon(Icons.lock),
-                              border: const OutlineInputBorder(),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _isPasswordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                            // Title
+                            Text(
+                              'Login',
+                              style: Theme.of(context).textTheme.headlineLarge,
+                              textAlign: TextAlign.center,
+                            ),
+
+                            const SizedBox(
+                              height: 30,
+                            ),
+
+                            // Email TextField
+                            TextFormField(
+                              controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: const InputDecoration(
+                                labelText: 'Email',
+                                prefixIcon: Icon(Icons.email),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your email';
+                                }
+                                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
+                                    .hasMatch(value)) {
+                                  return 'Please enter a valid email';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 20),
+
+                            // Password TextField
+                            TextFormField(
+                              controller: _passwordController,
+                              obscureText: !_isPasswordVisible,
+                              decoration: InputDecoration(
+                                labelText: 'Password',
+                                prefixIcon: const Icon(Icons.lock),
+                                border: const OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _isPasswordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isPasswordVisible = !_isPasswordVisible;
+                                    });
+                                  },
                                 ),
-                                onPressed: () {
-                                  setState(() {
-                                    _isPasswordVisible = !_isPasswordVisible;
-                                  });
-                                },
                               ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your password';
+                                }
+                                if (value.length < 6) {
+                                  return 'Password must be at least 6 characters long';
+                                }
+                                return null;
+                              },
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
-                              }
-                              if (value.length < 6) {
-                                return 'Password must be at least 6 characters long';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 20),
+                            const SizedBox(height: 20),
 
-                          const Spacer(),
+                            const Spacer(),
 
-                          // Login Button
-                          ElevatedButton(
-                            onPressed: () =>
-                                _loginWithEmailAndPassword(context),
-                            child: const Text('Login with Email'),
-                          ),
-                          const SizedBox(height: 10),
+                            // Login Button
+                            ElevatedButton(
+                              onPressed: () =>
+                                  _loginWithEmailAndPassword(context),
+                              child: const Text('Login with Email'),
+                            ),
+                            const SizedBox(height: 10),
 
-                          // Google Login Button
-                          OutlinedButton.icon(
-                            onPressed: _loginWithGoogle,
-                            icon: const Icon(Icons.g_mobiledata, size: 32),
-                            label: const Text('Login with Google'),
-                          ),
-                          const SizedBox(height: 20),
+                            // TODO: Add Google login functionality
+                            // Google Login Button
+                            // OutlinedButton.icon(
+                            //   onPressed: _loginWithGoogle,
+                            //   icon: const Icon(Icons.g_mobiledata, size: 32),
+                            //   label: const Text('Login with Google'),
+                            // ),
+                            // const SizedBox(height: 20),
 
-                          // Register Text
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Don't have an account?"),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/registration');
-                                },
-                                child: const Text('Register'),
-                              ),
-                            ],
-                          ),
-                        ],
+                            // Register Text
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text("Don't have an account?"),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamedAndRemoveUntil(context,
+                                        '/registration', (route) => false);
+                                  },
+                                  child: const Text('Register'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
