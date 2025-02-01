@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               // Implement chat search
             },
           ),
-          HomeMenuBtn(),
+          const HomeMenuBtn(),
         ];
       case 1:
         return [

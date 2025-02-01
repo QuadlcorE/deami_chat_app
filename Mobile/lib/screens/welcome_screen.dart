@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:deami_chat_app/services/auth_gate.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});

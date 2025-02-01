@@ -1,4 +1,3 @@
-import 'package:deami_chat_app/screens/home_screen.dart';
 import 'package:deami_chat_app/screens/new_home_screen.dart';
 import 'package:deami_chat_app/screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';

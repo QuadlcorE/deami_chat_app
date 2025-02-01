@@ -1,4 +1,3 @@
-import 'package:deami_chat_app/services/auth_gate.dart';
 
 import 'navigation.dart';
 import 'package:flutter/material.dart';

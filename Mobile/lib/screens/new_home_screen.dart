@@ -1,4 +1,3 @@
-import 'package:deami_chat_app/constants/colors.dart';
 import 'package:deami_chat_app/screens/widgets/home_menu_btn.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +15,7 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               'Homescreen',

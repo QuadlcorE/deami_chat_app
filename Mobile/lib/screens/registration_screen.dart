@@ -22,12 +22,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
   // Registration
   void _registerWithEmailAndPassword(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      final _auth = AuthServices();
+      final auth = AuthServices();
 
       if (_passwordController.text == _confirmPasswordController.text) {
         // Try registering
         try {
-          await _auth.signUpWithEmailandPassword(
+          await auth.signUpWithEmailandPassword(
               _emailController.text,
               _passwordController.text
           );

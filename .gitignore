@@ -1,23 +1,23 @@
 # Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.buildlog/
-.history
-.svn/
-migrate_working_dir/
+Mobile/*.class
+Mobile/*.log
+Mobile/*.pyc
+Mobile/*.swp
+Mobile/.DS_Store
+Mobile/.atom/
+Mobile/.buildlog/
+Mobile/.history
+Mobile/.svn/
+Mobile/migrate_working_dir/
 
 # IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
+Mobile/*.iml
+Mobile/*.ipr
+Mobile/*.iws
+Mobile/.idea/
 
 # Tmp files
-/tmp
+Mobile/*/tmp
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -25,22 +25,22 @@ migrate_working_dir/
 #.vscode/
 
 # Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.pub-cache/
-.pub/
-/build/
+Mobile/**/doc/api/
+Mobile/**/ios/Flutter/.last_build_id
+Mobile/.dart_tool/
+Mobile/.flutter-plugins
+Mobile/.flutter-plugins-dependencies
+Mobile/.pub-cache/
+Mobile/.pub/
+Mobile/build/
 
 # Symbolication related
-app.*.symbols
+Mobile/app.*.symbols
 
 # Obfuscation related
-app.*.map.json
+Mobile/app.*.map.json
 
 # Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+Mobile/android/app/debug
+Mobile/android/app/profile
+Mobile/android/app/release

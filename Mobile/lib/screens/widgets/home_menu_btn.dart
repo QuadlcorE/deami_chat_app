@@ -16,8 +16,8 @@ class _PopupMenuExampleState extends State<HomeMenuBtn> {
   Menu? selectedItem;
 
   void _signOut() {
-    final _auth = AuthServices();
-    _auth.signOut();
+    final auth = AuthServices();
+    auth.signOut();
   }
 
   @override
