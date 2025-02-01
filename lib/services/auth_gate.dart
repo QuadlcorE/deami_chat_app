@@ -1,5 +1,5 @@
 import 'package:deami_chat_app/screens/home_screen.dart';
-import 'package:deami_chat_app/screens/login_screen.dart';
+import 'package:deami_chat_app/screens/new_home_screen.dart';
 import 'package:deami_chat_app/screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class AuthGate extends StatelessWidget {
           builder: (context, snapshot) {
             // User is logged in
             if (snapshot.hasData) {
-              return const HomeScreen();
+              return const NewHomeScreen();
             }
 
             // User not logged in

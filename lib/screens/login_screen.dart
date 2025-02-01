@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         await authService.signInWithEmailPassword(
             _emailController.text, _passwordController.text);
-        Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
       }
 
       // Catch any errors

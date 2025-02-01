@@ -16,6 +16,9 @@ class AuthServices {
       // Handle specific FirebaseAuth errors
       String errorMessage;
       switch (e.code) {
+        case 'invalid-credential':
+          errorMessage = 'The user information is invalid.';
+          break;
         case 'wrong-password':
           errorMessage = 'The password is incorrect. Please try again.';
           break;

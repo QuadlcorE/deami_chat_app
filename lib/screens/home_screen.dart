@@ -1,6 +1,5 @@
 import 'package:deami_chat_app/constants/colors.dart';
 import 'package:deami_chat_app/screens/widgets/home_menu_btn.dart';
-import 'package:deami_chat_app/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:deami_chat_app/screens/home_screens/chat%20screen/chats_screen.dart';
 import 'package:deami_chat_app/screens/home_screens/communities_screen.dart';
